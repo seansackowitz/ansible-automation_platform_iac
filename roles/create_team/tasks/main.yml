@@ -1,0 +1,28 @@
+---
+- name: Ensure Organization exists
+  ansible.controller.organization:
+    controller_host: "{{ controller_url }}"
+    validate_certs: no
+    controller_oauthtoken: "{{ token }}"
+    name: "{{ team.organization }}"
+    state: present
+
+- name: Ensure Team exists
+  ansible.controller.team:
+    controller_host: "{{ controller_url }}"
+    validate_certs: no
+    controller_oauthtoken: "{{ token }}"
+    name: "{{ team.team }}"
+    organization: "{{ team.organization }}"
+    state: present
+
+- name: Add roles to teams
+  ansible.controller.role:
+    controller_host: "{{ controller_url }}"
+    validate_certs: no
+    controller_oauthtoken: "{{ token }}"
+    team: "{{ team.team }}"
+    organization: "{{ team.organization }}"
+    role: "{{ item }}"
+    state: present
+  loop: "{{ team.roles }}"

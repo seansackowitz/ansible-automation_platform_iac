@@ -1,0 +1,64 @@
+---
+all:
+  hosts:
+    localhost:
+      ansible_connection: local
+  children:
+    lab:
+      vars:
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+        ansible_user: root
+        ansible_password: 
+  vars:
+    controller_url:
+    controller_username: admin
+    controller_password: 
+    ldap_uri:
+    ldap_bind_dn:
+    ldap_bind_password:
+    ldap_user_search:
+    ldap_group_search:
+    ldap_superuser_group:
+    ldap_systemauditor_group:
+    aap_config:
+      team_permissions:
+        - team: Security Admins
+          team_dn: cn=aap_security_admins,ou=groups,dc=aap,dc=kcs3f,dc=lab,dc=rtlocal,dc=com
+          organization: Security
+          roles:
+            - project_admin
+            - inventory_admin
+            - credential_admin
+            - workflow_admin
+            - notification_admin
+            - job_template_admin
+        - team: Security Help Desk
+          team_dn: cn=aap_security_help_desk,ou=groups,dc=aap,dc=kcs3f,dc=lab,dc=rtlocal,dc=com
+          organization: Security
+          roles:
+            - execute
+        - team: Network Admins
+          team_dn: cn=aap_network_admins,ou=groups,dc=aap,dc=kcs3f,dc=lab,dc=rtlocal,dc=com
+          organization: Network
+          roles:
+            - project_admin
+            - inventory_admin
+            - credential_admin
+            - workflow_admin
+            - notification_admin
+            - job_template_admin
+        - team: Network Users
+          team_dn: cn=aap_network_users,ou=groups,dc=aap,dc=kcs3f,dc=lab,dc=rtlocal,dc=com
+          organization: Network
+          roles:
+            - execute
+        - team: Network Auditors
+          team_dn: cn=aap_network_audit,ou=groups,dc=aap,dc=kcs3f,dc=lab,dc=rtlocal,dc=com
+          organization: Network
+          roles:
+            - auditor
+        - team: Network Help Desk
+          team_dn: cn=aap_network_help_desk,ou=groups,dc=aap,dc=kcs3f,dc=lab,dc=rtlocal,dc=com
+          organization: Network
+          roles:
+            - execute

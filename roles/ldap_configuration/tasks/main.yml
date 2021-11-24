@@ -1,0 +1,7 @@
+---
+- name: Create json for ldap config
+  set_fact:
+    controller_settings: "{{ lookup('template', 'templates/ldap.json.j2') }}"
+
+- include_role:
+    name: redhat_cop.controller_configuration.settings

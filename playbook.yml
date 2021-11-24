@@ -1,0 +1,30 @@
+---
+- name: Apply organization, team, and permission structure from IaC
+  hosts: all
+  tasks:
+    - block:
+        - name: Get token to authenticate with AAP Controller
+          ansible.controller.token:
+            scope: write
+            state: present
+            controller_host: "{{ controller_url }}"
+            controller_username: "{{ controller_username }}"
+            controller_password: "{{ controller_password }}"
+
+        - name: Create each team
+          ansible.builtin.include_role:
+            name: create_team
+          loop: "{{ aap_config.team_permissions }}"
+          loop_control:
+            loop_var: team
+
+        - name: Set up LDAP configuration
+          ansible.builtin.include_role:
+            name: ldap_configuration
+
+      always:
+      - name: Delete our Token with the token we created
+        ansible.controller.token:
+          existing_token: "{{ token }}"
+          state: absent
+        when: token is defined
